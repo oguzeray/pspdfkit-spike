@@ -1,35 +1,46 @@
-import { useEffect, useRef } from "react";
-import PSPDFKit, { Instance } from "pspdfkit";
+import { useEffect, useRef } from 'react'
+import PSPDFKit, { Instance } from 'pspdfkit'
 
 interface PdfViewerComponentProps {
-  document: string | ArrayBuffer;
+  document: string | ArrayBuffer
 }
 
 export default function PdfViewerComponent({
-  document
+  document,
 }: PdfViewerComponentProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const pspdfkit = useRef<Instance | null>(null)
 
   useEffect(() => {
-    (async function () {
+    ;(async function () {
       if (!containerRef.current) {
-        return;
+        return
       }
 
-      await PSPDFKit.load({
-        // Container where PSPDFKit should be mounted.
+      pspdfkit.current = await PSPDFKit.load({
         container: containerRef.current,
-        // The document to open.
         document,
-        // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
-        baseUrl: `http://localhost:3000/`
-      });
-    })();
+        baseUrl: `${window.location.protocol}//${window.location.host}/`,
+        enableAutomaticLinkExtraction: true,
+      })
+    })()
 
     return () => {
-      PSPDFKit && PSPDFKit.unload(containerRef.current);
-    };
-  }, []);
+      PSPDFKit.unload(containerRef.current)
+    }
+  }, [document, containerRef.current])
 
-  return <div ref={containerRef} style={{ width: "100%", height: "100vh" }} />;
+  async function annotationget() {
+    const ann = await pspdfkit.current?.getAnnotations(0)
+    console.log(`annotationget: ${ann}`)
+  }
+
+  return (
+    <div style={{ display: 'flex', width: '100%', height: '100vh' }}>
+      <div ref={containerRef} style={{ width: '90%', height: '100vh' }} />
+      <div style={{ width: '10%' }}>
+        <button onClick={() => annotationget()}>asdasdasda</button>
+      </div>
+    </div>
+  )
 }

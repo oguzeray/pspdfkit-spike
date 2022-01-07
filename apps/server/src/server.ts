@@ -1,7 +1,6 @@
-import dotenv from "dotenv-safe";
+import dotenv from 'dotenv-safe';
+
 dotenv.config();
 
-
 // Hot Module Replacement
-console.log("Hello World!");
-
+console.log('Hello World!');
