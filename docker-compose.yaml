@@ -8,7 +8,7 @@ services:
       PGPASSWORD: password
       PGDATABASE: pspdfkit
       PGHOST: db
-      PGPORT: 5444
+      PGPORT: 5432
       API_AUTH_TOKEN: secret
       SECRET_KEY_BASE: secret-key-base
       JWT_PUBLIC_KEY: |
@@ -34,11 +34,10 @@ services:
       POSTGRES_USER: pspdfkit
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pspdfkit
-      POSTGRES_PORT: 5444
       POSTGRES_INITDB_ARGS: --data-checksums
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  pgdata: null

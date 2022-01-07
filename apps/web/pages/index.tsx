@@ -1,10 +1,12 @@
-import { Button } from "ui";
+import dynamic from "next/dynamic";
+
+const PdfViewerComponent = dynamic(
+  () => import("../src/Components/PdfViewerComponent"),
+  {
+    ssr: false
+  }
+);
 
 export default function Web() {
-  return (
-    <div>
-      <h1>Web</h1>
-      <Button />
-    </div>
-  );
+  return <PdfViewerComponent document={"./pdf/pd.pdf"} />;
 }

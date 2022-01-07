@@ -6,8 +6,8 @@
   "author": "Oğuz Eray Orhan",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development  && webpack --config webpack.$NODE_ENV.js",
-    "build": "NODE_ENV=production && webpack --config webpack.$NODE_ENV.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
     "start": "node --require dotenv/config dist/server"
   },
   "dependencies": {
@@ -15,14 +15,11 @@
   },
   "devDependencies": {
     "@types/dotenv-safe": "^8.1.2",
-    "@types/node": "^16.10.0",
-    "@types/webpack-env": "^1.16.2",
-    "clean-webpack-plugin": "^4.0.0",
+    "@types/node": "^17.0.8",
     "ts-loader": "^9.2.6",
+    "ts-node-dev": "^1.1.8",
+    "tsc": "^2.0.3",
     "typescript": "^4.4.3",
-    "webpack": "^5.54.0",
-    "webpack-cli": "^4.8.0",
-    "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
   }
 }
