@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "apollo federation gateway",
+  "main": "server.js",
+  "author": "Oğuz Eray Orhan",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development  && webpack --config webpack.$NODE_ENV.js",
+    "build": "NODE_ENV=production && webpack --config webpack.$NODE_ENV.js",
+    "start": "node --require dotenv/config dist/server"
+  },
+  "dependencies": {
+    "dotenv-safe": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/node": "^16.10.0",
+    "@types/webpack-env": "^1.16.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.3",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
