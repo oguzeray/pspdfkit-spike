@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "verify-installation": "node scripts/verify-install.js && node scripts/copy-pspdfkit-files.js",
-    "dev": "yarn && next dev",
-    "build": "yarn && next build",
-    "start": "yarn && npm run build && next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npm run build && next start",
     "lint": "next lint",
     "postinstall": "npm run verify-installation"
   },
