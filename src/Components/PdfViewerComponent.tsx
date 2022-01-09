@@ -24,7 +24,7 @@ export default function PdfViewerComponent({
         return
       }
 
-      const token = await fetch(`/api/document?documentId=${documentId}`)
+      const token = await fetch(`/api/gettoken?documentId=${documentId}`)
       const { token: pdfkitToken } = await token.json()
 
       pdfkitInstance.current = await PSPDFKit.load({
