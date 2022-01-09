@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 const jwtKey = fs.readFileSync(
   path.resolve(process.cwd(), 'config/private.pem')
 )
-export default function GetDocumentCredentials(
+export default function GetTokenByDocumentId(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -19,6 +19,17 @@ export default function GetDocumentCredentials(
 
   function prepareJwt() {
     const claims = {
+      user_id: 'user 1',
+      layer: 'annotations',
+      collaboration_permissions: [
+        'annotations:view:all',
+        'annotations:edit:self',
+        'annotations:delete:self',
+        'comments:view:all',
+        'comments:edit:self',
+        'comments:delete:self',
+      ],
+      creator_name: 'John Doe',
       document_id: documentId,
       permissions: ['read-document', 'write', 'download'],
     }
@@ -30,5 +41,5 @@ export default function GetDocumentCredentials(
   }
   const token = prepareJwt()
 
-  res.json({ token })
+  res.status(200).json({ token })
 }
