@@ -9,6 +9,6 @@ const PdfViewerComponent = dynamic(
 
 export default function Home() {
   return (
-    <PdfViewerComponent documentId="bb16e661-4c93-428b-8b18-281c4aa04c05" />
+    <PdfViewerComponent documentId="586c8492-1020-4e45-b02d-eb5508177682" />
   )
 }

@@ -8,7 +8,7 @@ export default function PdfViewerComponent({
   documentId,
 }: PdfViewerComponentProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const pdfkitInstance = useRef<Instance | null>(null)
+  const instance = useRef<Instance | null>(null)
 
   // // @ts-ignore
   // const toolbarItems = PSPDFKit.defaultToolbarItems
@@ -27,7 +27,7 @@ export default function PdfViewerComponent({
       const token = await fetch(`/api/gettoken?documentId=${documentId}`)
       const { token: pdfkitToken } = await token.json()
 
-      pdfkitInstance.current = await PSPDFKit.load({
+      instance.current = await PSPDFKit.load({
         container: container,
         documentId,
         initialViewState: new PSPDFKit.ViewState({
@@ -49,31 +49,46 @@ export default function PdfViewerComponent({
     }
   }, [documentId])
 
-  pdfkitInstance.current?.setViewState((viewState) =>
-    viewState.set('formDesignMode', true)
-  )
-  const widget = new PSPDFKit.Annotations.WidgetAnnotation({
-    id: PSPDFKit.generateInstantId(),
-    pageIndex: 0,
-    formFieldName: 'MyFormField',
-    boundingBox: new PSPDFKit.Geometry.Rect({
-      left: 100,
-      top: 75,
-      width: 200,
-      height: 80,
-    }),
-  })
+  const addTextField = async () => {
+    if (!instance.current) {
+      return
+    }
 
-  const formField = new PSPDFKit.FormFields.TextFormField({
-    name: 'MyFormField',
-    value: 'Text shown in the form field',
-  })
+    const widget = new PSPDFKit.Annotations.WidgetAnnotation({
+      id: PSPDFKit.generateInstantId(),
+      pageIndex: 0,
+      formFieldName: 'MyFormField',
+      boundingBox: new PSPDFKit.Geometry.Rect({
+        left: 100,
+        top: 75,
+        width: 200,
+        height: 80,
+      }),
+    })
 
-  pdfkitInstance.current?.create([widget, formField])
+    const formField = new PSPDFKit.FormFields.TextFormField({
+      name: 'MyFormField',
+      label: 'My Form Field',
+      isFillable: true,
+      annotationIds: PSPDFKit.Immutable.List([widget.id]),
+      value: 'Text shown in the form field',
+    })
+
+    await instance.current.create([widget, formField])
+  }
 
   return (
     <div style={{ display: 'flex', width: '100%', height: '100vh' }}>
-      <div ref={containerRef} style={{ width: '100%', height: '100vh' }} />
+      <div ref={containerRef} style={{ width: '90%', height: '100vh' }} />
+      <div>
+        <button
+          onClick={async () => {
+            await addTextField()
+          }}
+        >
+          Add Text Input Field
+        </button>
+      </div>
     </div>
   )
 }
