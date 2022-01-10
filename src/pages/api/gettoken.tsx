@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import * as path from 'path'
 import * as fs from 'fs'
 import jwt from 'jsonwebtoken'
+import pspdfkitApi from 'src/Api/Pspdfkit.api'
 
 const jwtKey = fs.readFileSync(
   path.resolve(process.cwd(), 'src/config/private.pem')
 )
-export default function GetTokenByDocumentId(
+export default async function GetTokenByDocumentId(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -20,7 +21,6 @@ export default function GetTokenByDocumentId(
   function prepareJwt() {
     const claims = {
       user_id: 'user 2',
-      layer: 'annotations',
       collaboration_permissions: [
         'annotations:view:all',
         'annotations:edit:self',
@@ -41,6 +41,13 @@ export default function GetTokenByDocumentId(
     })
   }
   const token = prepareJwt()
+
+  try {
+    const { data } = (await pspdfkitApi.fetchDocumentInfo(documentId))?.data
+    console.log(`Document ${documentId} info:`, data)
+  } catch (error) {
+    console.log(`error: ${error}`)
+  }
 
   res.status(200).json({ token })
 }
