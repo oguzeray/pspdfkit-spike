@@ -19,15 +19,16 @@ export default function GetTokenByDocumentId(
 
   function prepareJwt() {
     const claims = {
-      user_id: 'user 1',
+      user_id: 'user 2',
       layer: 'annotations',
       collaboration_permissions: [
         'annotations:view:all',
         'annotations:edit:self',
         'annotations:delete:self',
-        'comments:view:all',
-        'comments:edit:self',
-        'comments:delete:self',
+        'form-fields:view:all',
+        'form-fields:edit:all',
+        'form-fields:delete:all',
+        'form-fields:fill:all',
       ],
       creator_name: 'John Doe',
       document_id: documentId,

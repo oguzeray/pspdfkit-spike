@@ -30,6 +30,9 @@ export default function PdfViewerComponent({
       pdfkitInstance.current = await PSPDFKit.load({
         container: container,
         documentId,
+        initialViewState: new PSPDFKit.ViewState({
+          formDesignMode: true,
+        }),
         authPayload: {
           jwt: pdfkitToken,
         },
@@ -46,9 +49,31 @@ export default function PdfViewerComponent({
     }
   }, [documentId])
 
+  pdfkitInstance.current?.setViewState((viewState) =>
+    viewState.set('formDesignMode', true)
+  )
+  const widget = new PSPDFKit.Annotations.WidgetAnnotation({
+    id: PSPDFKit.generateInstantId(),
+    pageIndex: 0,
+    formFieldName: 'MyFormField',
+    boundingBox: new PSPDFKit.Geometry.Rect({
+      left: 100,
+      top: 75,
+      width: 200,
+      height: 80,
+    }),
+  })
+
+  const formField = new PSPDFKit.FormFields.TextFormField({
+    name: 'MyFormField',
+    value: 'Text shown in the form field',
+  })
+
+  pdfkitInstance.current?.create([widget, formField])
+
   return (
     <div style={{ display: 'flex', width: '100%', height: '100vh' }}>
-      <div ref={containerRef} style={{ width: '90%', height: '100vh' }} />
+      <div ref={containerRef} style={{ width: '100%', height: '100vh' }} />
     </div>
   )
 }
