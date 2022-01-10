@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import jwt from 'jsonwebtoken'
 
 const jwtKey = fs.readFileSync(
-  path.resolve(process.cwd(), 'config/private.pem')
+  path.resolve(process.cwd(), 'src/config/private.pem')
 )
 export default function GetTokenByDocumentId(
   req: NextApiRequest,
