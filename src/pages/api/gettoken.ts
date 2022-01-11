@@ -45,7 +45,7 @@ export default async function GetTokenByDocumentId(
       case '3':
         return ['annotations:view:all']
       case '4':
-        return []
+        return ['annotations:view:self']
       case '5':
         return []
       case '6':
@@ -56,6 +56,8 @@ export default async function GetTokenByDocumentId(
   }
   function getPermissions(userId: string) {
     switch (userId) {
+      case '3':
+        return ['read-document', 'download']
       case '4':
         return ['read-document', 'download']
       case '5':
@@ -68,9 +70,9 @@ export default async function GetTokenByDocumentId(
   }
   function prepareJwt() {
     const claims = {
-      user_id: 'user 2',
+      user_id: userId,
       collaboration_permissions: getCollaborationPermissions(userId as string),
-      creator_name: 'John Doe',
+      creator_name: `User ${userId}`,
       document_id: documentId,
       permissions: getPermissions(userId as string),
     }
